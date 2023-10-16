@@ -7,7 +7,8 @@ const helper = {
       "includeTitles",
       "includeDescriptions",
       "targetURL",
-      " ",
+      "includesPicture",
+      "includesAnchor",
     ]);
     for (let criteria of Object.keys(query)) {
       if (!supportedCriteria.has(criteria)) return true;

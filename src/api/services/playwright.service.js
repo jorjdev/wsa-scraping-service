@@ -1,4 +1,4 @@
-import scrapeTarget from "../../playwright/playwright.js";
+import scrapeTarget from "../playwright/playwright.js";
 import helper from "../utils/helper.js";
 
 export const scrapeTargetURL = async (scrapeByCriteria) => {
