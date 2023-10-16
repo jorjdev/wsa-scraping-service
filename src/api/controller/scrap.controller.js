@@ -2,6 +2,7 @@ import {
   queryCannotBeEmpty,
   queryHasUnsupportCriteria,
   isUnsupportedTargetURL,
+  isNavigationError
 } from "../../../middlewares.js";
 import * as PlaywrightService from "../services/playwright.service.js";
 import errorMessages from "../utils/errors.js";
@@ -27,7 +28,8 @@ export const scrapeTarget = async (req, res) => {
       if (scrapedContent) {
         res.json(scrapedContent);
       } else if (scrapedContent === errorMessages.navigationError) {
-        res.status(404).json({ error: "Resource not found" });
+        isNavigationError(res);
+        res.status(404).json({ error: errorMessages.navigationError });
       }
     }
   } catch (error) {}

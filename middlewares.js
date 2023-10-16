@@ -1,14 +1,21 @@
 import errorMessages from "./src/api/utils/errors.js";
 
+const {
+  queryCannotBeEmpty,
+  queryHasUnsupportCriteria,
+  unsupportedTargetURL,
+  navigationError,
+} = errorMessages;
+
 export function queryCannotBeEmpty(res) {
-    const errorMessage = errorMessages.queryCannotBeEmpty;
-    res.status(400).json({ error: errorMessage });
+  res.status(400).json({ error: queryCannotBeEmpty });
 }
-export function queryHasUnsupportCriteria(res){
-    const errorMessage = errorMessages.queryHasUnsupportCriteria;
-    res.status(501).json({ error: errorMessage });
+export function queryHasUnsupportCriteria(res) {
+  res.status(501).json({ error: queryHasUnsupportCriteria });
 }
-export function isUnsupportedTargetURL(res){
-    const errorMessage = errorMessages.unsupportedTargetURL;
-    res.status(501).json({ error: errorMessage });
+export function isUnsupportedTargetURL(res) {
+  res.status(501).json({ error: unsupportedTargetURL });
+}
+export function isNavigationError(res) {
+  res.status(404).json({ error: navigationError });
 }

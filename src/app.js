@@ -29,5 +29,6 @@ async function startServer() {
   app.use(middlewares.queryCannotBeEmpty);
   app.use(middlewares.queryHasUnsupportCriteria);
   app.use(middlewares.isUnsupportedTargetURL);
+  app.use(middlewares.isNavigationError);
 }
 startServer();
