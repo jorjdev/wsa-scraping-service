@@ -1,10 +1,10 @@
 import errorMessages from "./src/api/utils/errors.js";
 
 const {
-  queryCannotBeEmpty,
-  queryHasUnsupportCriteria,
-  unsupportedTargetURL,
-  navigationError,
+  queryCannotBeEmptyErrorMessage,
+  queryHasUnsupportCriteriaErrorMessage,
+  unsupportedTargetURLErrorMessage,
+  navigationErrorErrorMessage,
 } = errorMessages;
 
 export function queryCannotBeEmpty(res) {
