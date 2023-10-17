@@ -19,11 +19,23 @@ export const scrapeTarget = async (req, res) => {
     } else if (helper.isUnsupportedTargetURL(req.query.targetURL)) {
       isUnsupportedTargetURL(res);
     } else {
-      const { includeTitles, includeDescriptions, targetURL } = req.query;
+      const {
+        includeTitles,
+        includeDescriptions,
+        targetURL,
+        includesAnchor,
+        includesPicture,
+        includesSentimentAnalysis,
+        includesWordsCounter,
+      } = req.query;
       const scrapedContent = await PlaywrightService.scrapeTargetURL({
         includeTitles,
         includeDescriptions,
         targetURL,
+        includesAnchor,
+        includesPicture,
+        includesSentimentAnalysis,
+        includesWordsCounter,
       });
       if (scrapedContent) {
         res.json(scrapedContent);
