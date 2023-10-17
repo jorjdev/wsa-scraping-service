@@ -26,6 +26,8 @@ export const scrapeTarget = async (req, res) => {
         targetURL,
         includesAnchor,
         includesPicture,
+        includesSentimentAnalysis,
+        includesWordsCounter,
       } = req.query;
       const scrapedContent = await PlaywrightService.scrapeTargetURL({
         includeTitles,
@@ -33,6 +35,8 @@ export const scrapeTarget = async (req, res) => {
         targetURL,
         includesAnchor,
         includesPicture,
+        includesSentimentAnalysis,
+        includesWordsCounter,
       });
       if (scrapedContent) {
         res.json(scrapedContent);
