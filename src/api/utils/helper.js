@@ -12,7 +12,7 @@ const helper = {
       "includesPicture",
       "includesAnchor",
       "includesSentimentAnalysis",
-      "includesWordsCounter"
+      "includesWordsCounter",
     ]);
     for (let criteria of Object.keys(query)) {
       if (!supportedCriteria.has(criteria)) return true;
@@ -60,13 +60,16 @@ const helper = {
     //Split each word in the sentence, and find which category contains this word.the sentence will have a 'sentiment score'.
     //The sentiment score is calculated this way: for each negative word -> score--; for each positive one -> score++; neutral ones will not affect the overall score.the initial score will be 0.
     //return is based on the value of the sentiment score;
-    //ex : John is happy and that he just ate an apple. 0 0 1 0 0 0 0 1(will categorise eating as a positive :) ) 0 0 -> positive.
+    //ex : John is happy and that he just ate an apple. 0 0 1 0 0 0 0 1(eating should be a positive :) ) 0 0 -> positive.
   },
-  sanitizeText : (input) => {
-    const inputWithoutPunctuation = input.replace(/[,:.]/g, '');
-    const inputWithoutSeparators = inputWithoutPunctuation.replace(/([a-z])([A-Z])/g, '$1 $2');
+  sanitizeText: (input) => {
+    const inputWithoutPunctuation = input.replace(/[,:.]/g, "");
+    const inputWithoutSeparators = inputWithoutPunctuation.replace(
+      /([a-z])([A-Z])/g,
+      "$1 $2"
+    );
     return inputWithoutSeparators;
-  }
+  },
 };
 
 export default helper;
