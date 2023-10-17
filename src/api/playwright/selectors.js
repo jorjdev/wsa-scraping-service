@@ -12,8 +12,7 @@ const SELECTORS = {
   selectBlogPostLink: (blogIndex) =>
     `//div/main/div/div/div[2]/div[${blogIndex}]/a`,
   selectBlogPostContent: `//div/div/div/div/div[2]/div[1]/div[3]`,
-  selectBlogPostTitle: `//div/div/div/div/div[2]/div[1]/div[2]`
-
+  selectBlogPostTitle: `//div/div/div/div/div[2]/div[1]/div[2]`,
 };
 
 export default SELECTORS;

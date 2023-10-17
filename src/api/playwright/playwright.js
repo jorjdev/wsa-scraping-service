@@ -27,7 +27,7 @@ const scrapeTarget = async (scrapCriterias) => {
       return ERROR_MESSAGES.navigationError;
     });
     const blogPostsWrapper = await page.$(SELECTORS.selectAllBlogPostsWrapper);
-    var blogPosts = await blogPostsWrapper.$$(" > *");
+    const blogPosts = await blogPostsWrapper.$$(" > *");
     const promises = [];
     for (let i = 1; i <= blogPosts.length; i++) {
       promises.push(
@@ -69,9 +69,20 @@ const scrapeTarget = async (scrapCriterias) => {
           if (includesSentimentAnalysis || scrapeAllContent) {
             data.sentiment = helper.analyzeSentiment(data.short_description);
           }
-          if (includesWordsCounter || scrapeAllContent) {
+
+          arrayOfTitlesAndDescriptions.push(data);
+        })()
+      );
+    }
+
+    await Promise.all(promises);
+    if (includesWordsCounter || scrapeAllContent) {
+      const blogPostPromises = [];
+      for (let j = 0; j < arrayOfTitlesAndDescriptions.length; j++) {
+        blogPostPromises.push(
+          (async () => {
             const blogPostPage = await browser.newPage();
-            await blogPostPage.goto(data.href);
+            await blogPostPage.goto(arrayOfTitlesAndDescriptions[j].href);
             const blogPostTitle = await blogPostPage.$(
               SELECTORS.selectBlogPostTitle
             );
@@ -80,19 +91,17 @@ const scrapeTarget = async (scrapCriterias) => {
             );
             const title = await blogPostTitle.textContent();
             const content = await blogPostContent.textContent();
+            await blogPostPage.close();
+
             const sanitizedContent = helper
               .sanitizeText(content + title)
               .split(" ");
-            data.words = sanitizedContent.length;
-          }
-          if (Object.keys(data).length > 0) {
-            arrayOfTitlesAndDescriptions.push(data);
-          }
-        })()
-      );
+            arrayOfTitlesAndDescriptions[j].words = sanitizedContent.length;
+          })().catch((err) => console.log(err))
+        );
+      }
+      await Promise.all(blogPostPromises);
     }
-
-    await Promise.all(promises);
   } catch (err) {
     console.log(err);
     return ERROR_MESSAGES.unhandledExceptionErrorMessage;
