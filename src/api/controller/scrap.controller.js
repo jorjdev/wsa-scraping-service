@@ -2,10 +2,11 @@ import {
   queryCannotBeEmpty,
   queryHasUnsupportCriteria,
   isUnsupportedTargetURL,
-  isNavigationError
+  isNavigationError,
+  unhandledException,
 } from "../../../middlewares.js";
 import * as PlaywrightService from "../services/playwright.service.js";
-import errorMessages from "../utils/errors.js";
+import ERROR_MESSAGES from "../utils/errors.js";
 import helper from "../utils/helper.js";
 
 export const scrapeTarget = async (req, res) => {
@@ -39,9 +40,13 @@ export const scrapeTarget = async (req, res) => {
       });
       if (scrapedContent) {
         res.json(scrapedContent);
-      } else if (scrapedContent === errorMessages.navigationError) {
+      } else if (scrapedContent === ERROR_MESSAGES.navigationError) {
         isNavigationError(res);
-        res.status(404).json({ error: errorMessages.navigationError });
+        res.status(404).json({ error: ERROR_MESSAGES.navigationError });
+      } else if (
+        scrapedContent === ERROR_MESSAGES.unhandledExceptionErrorMessage
+      ) {
+        unhandledException(res);
       }
     }
   } catch (error) {}
